@@ -12,6 +12,8 @@ if [ "$1" == "-h" ] || [ "$1" == "--help" ]; then
     echo "Commands:"
     echo "  update     Update the ArchConfig application"
     echo "  gpg        Launch the GPG management module"
+    echo "  backup     Launch the backup management module"
+    echo "  git        Launch the git management module"
     echo "  help       Show this help message"
     exit 0
 fi
@@ -25,6 +27,18 @@ fi
 # Launch the GPG module
 if [ "$1" == "gpg" ]; then
     source ~/.archconfig/modules/gpg.sh
+    exit 0
+fi
+
+# Launch the backup module
+if [ "$1" == "backup" ]; then
+    source ~/.archconfig/modules/backup.sh
+    exit 0
+fi
+
+# Launch the git module
+if [ "$1" == "git" ]; then
+    source ~/.archconfig/modules/git.sh
     exit 0
 fi
 

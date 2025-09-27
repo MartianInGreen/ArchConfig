@@ -237,106 +237,56 @@ export_gpg_private_key_clipboard() {
 }
 
 # Main menu loop
-while true; do
-    clear
-    choice=$(dialog --clear --title "GPG Module" --menu "Select an option:" 20 60 15 \
-        "1" "Create a new GPG key" \
-        "11" "Create a new GPG subkey" \
-        "12" "Create a new GPG identity" \
-        "21" "Import a GPG key from a file" \
-        "22" "Import a GPG key from clipboard" \
-        "3" "Delete a GPG key" \
-        "31" "Delete a GPG subkey" \
-        "32" "Delete a GPG identity" \
-        "4" "List GPG keys" \
-        "41" "List GPG private keys" \
-        "61" "Export a GPG key to a file" \
-        "62" "Export a GPG key to clipboard" \
-        "71" "Export a GPG public key to a file" \
-        "72" "Export a GPG public key to clipboard" \
-        "73" "Export a GPG private key to a file" \
-        "74" "Export a GPG private key to clipboard" \
-        "8" "Back" \
-        2>&1 >/dev/tty)
+# Print the options
 
-    # Handle dialog cancellation
-    if [ $? -ne 0 ]; then
-        break
-    fi
+printf "${CYAN}GPG management module${RESET}\n"
+printf "${YELLOW}Select an option:${RESET}\n\n"
+printf "${CYAN}1. Key Management${RESET}\n"
+printf "${GREEN}    11) Create a new GPG key${RESET}\n"
+printf "${GREEN}    12) Create a new GPG subkey${RESET}\n"
+printf "${GREEN}    13) Create a new GPG identity${RESET}\n"
+printf "${GREEN}    14) Import GPG key from file${RESET}\n"
+printf "${GREEN}    15) Import GPG key from clipboard${RESET}\n"
+printf "${GREEN}    16) Delete a GPG key${RESET}\n"
+printf "${GREEN}    17) Delete a GPG subkey${RESET}\n"
+printf "${GREEN}    18) Delete a GPG identity${RESET}\n"
+printf "${CYAN}2. Key Export${RESET}\n"
+printf "${GREEN}    21) Export GPG key to file${RESET}\n"
+printf "${GREEN}    22) Export GPG key to clipboard${RESET}\n"
+printf "${GREEN}    23) Export GPG public key to file${RESET}\n"
+printf "${GREEN}    24) Export GPG public key to clipboard${RESET}\n"
+printf "${GREEN}    25) Export GPG private key to file${RESET}\n"
+printf "${GREEN}    26) Export GPG private key to clipboard${RESET}\n"
+printf "${CYAN}3. Key List${RESET}\n"
+printf "${GREEN}    31) List GPG keys${RESET}\n"
+printf "${GREEN}    32) List GPG private keys${RESET}\n"
+printf "${GREEN}    33) List GPG identities${RESET}\n"
+printf "${CYAN}4. Exit${RESET}\n"
+printf "${GREEN}    41) Exit${RESET}\n"
 
-    case $choice in
-        1)
-            clear
-            create_gpg_key
-            ;;
-        11)
-            clear
-            create_gpg_subkey
-            ;;
-        12)
-            clear
-            create_gpg_identity
-            ;;
-        21)
-            clear
-            import_gpg_key_file
-            ;;
-        22)
-            clear
-            import_gpg_key_clipboard
-            ;;
-        3)
-            clear
-            delete_gpg_key
-            ;;
-        31)
-            clear
-            delete_gpg_subkey
-            ;;
-        32)
-            clear
-            delete_gpg_identity
-            ;;
-        4)
-            clear
-            list_gpg_keys
-            ;;
-        41)
-            clear
-            list_gpg_private_keys
-            ;;
-        61)
-            clear
-            export_gpg_key_file
-            ;;
-        62)
-            clear
-            export_gpg_key_clipboard
-            ;;
-        71)
-            clear
-            export_gpg_public_key_file
-            ;;
-        72)
-            clear
-            export_gpg_public_key_clipboard
-            ;;
-        73)
-            clear
-            export_gpg_private_key_file
-            ;;
-        74)
-            clear
-            export_gpg_private_key_clipboard
-            ;;
-        8)
-            break
-            ;;
-        *)
-            printf "${RED}Invalid option. Please try again.${RESET}\n"
-            read -n 1 -s -r -p "Press any key to continue..."
-            ;;
-    esac
-done
+# Get the user's choice
+printf "Enter your choice: "
+read choice
 
-clear
+# Process the user's choice
+case $choice in
+    11) create_gpg_key;;
+    12) create_gpg_subkey;;
+    13) create_gpg_identity;;
+    14) import_gpg_key_file;;
+    15) import_gpg_key_clipboard;;
+    16) delete_gpg_key;;
+    17) delete_gpg_subkey;;
+    18) delete_gpg_identity;;
+    21) export_gpg_key_file;;
+    22) export_gpg_key_clipboard;;
+    23) export_gpg_public_key_file;;
+    24) export_gpg_public_key_clipboard;;
+    25) export_gpg_private_key_file;;
+    26) export_gpg_private_key_clipboard;;
+    31) list_gpg_keys;;
+    32) list_gpg_private_keys;;
+    33) list_gpg_identities;;
+    41) exit;;
+    *) printf "${RED}Invalid choice. Please try again.${RESET}\n";;
+esac

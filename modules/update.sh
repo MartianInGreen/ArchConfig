@@ -15,7 +15,8 @@ if [ "$(diff $GIT_PATH/config.sh ~/.archconfig/config.sh)" ]; then
     printf "${YELLOW}Config file has changed, please review the changes and update the config file...${RESET}\n"
     diff $GIT_PATH/config.sh ~/.archconfig/config.sh
     printf "${YELLOW}Do you want to update the config file? ${RED}THIS WILL OVERWRITE THE CURRENT CONFIG FILE${RESET} (y/n)${RESET}\n"
-    read -n 1 -p "Update the config file? " update_config
+    read -n 1 -r update_config
+    update_config=$(echo "$update_config" | tr -d '\r')
     if [ "$update_config" == "y" ]; then
         cp $GIT_PATH/config.sh ~/.archconfig/config.sh
     fi

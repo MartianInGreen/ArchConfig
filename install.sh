@@ -19,6 +19,7 @@ printf "${YELLOW}Ensuring necessary directories exist...${RESET}\n"
 mkdir -p ~/.archconfig
 mkdir -p ~/.archconfig/backups
 mkdir -p ~/.archconfig/user
+mkdir -p ~/.secrets
 mkdir -p ~/.local/bin
 
 # Ensure the necessary requirements are installed

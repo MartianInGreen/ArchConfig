@@ -28,3 +28,33 @@ if [ "$1" == "gpg" ]; then
     exit 0
 fi
 
+# -----------------------------------------------------------------
+
+# Main menu
+printf "${CYAN}ArchConfig${RESET}\n"
+printf "${YELLOW}Select an option:${RESET}\n\n"
+
+printf "${CYAN}1. Management${RESET}\n"
+printf "${GREEN}    11) Fixes${RESET}\n"
+printf "${GREEN}    12) Backup${RESET}\n"
+printf "${CYAN}2. Tools${RESET}\n"
+printf "${GREEN}    21) GPG Management${RESET}\n"
+printf "${GREEN}    22) Git Management${RESET}\n"
+printf "${CYAN}3. Exit${RESET}\n"
+printf "${GREEN}    9) Exit${RESET}\n"
+
+# Get the user's choice
+printf "Enter your choice: "
+read choice
+
+# Process the user's choice
+case $choice in
+    11) source ~/.archconfig/modules/fixes.sh;;
+    12) source ~/.archconfig/modules/backup.sh;;
+    21) source ~/.archconfig/modules/gpg.sh;;
+    22) source ~/.archconfig/modules/git.sh;;
+    9) exit;;
+    *) printf "${RED}Invalid choice. Please try again.${RESET}\n";;
+esac
+
+# -----------------------------------------------------------------

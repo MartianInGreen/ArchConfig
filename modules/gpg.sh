@@ -121,6 +121,24 @@ list_gpg_private_keys() {
     read -n 1 -s -r -p "Press any key to continue..."
 }
 
+# Function to list GPG identities
+list_gpg_identities() {
+    printf "${CYAN}Listing GPG identities...${RESET}\n"
+    printf "${YELLOW}Available keys and their identities:${RESET}\n"
+    gpg --list-keys --with-colons | awk -F: '
+    /^pub:/ { 
+        key_id = $5; 
+        printf "\n%sKey ID: %s%s\n", "'${CYAN}'", key_id, "'${RESET}'"
+    }
+    /^uid:/ { 
+        uid = $10; 
+        gsub(/%[0-9A-Fa-f][0-9A-Fa-f]/, "", uid);
+        printf "%s  Identity: %s%s\n", "'${GREEN}'", uid, "'${RESET}'"
+    }'
+    printf "\n"
+    read -n 1 -s -r -p "Press any key to continue..."
+}
+
 # Function to export GPG key to file
 export_gpg_key_file() {
     printf "${CYAN}Exporting GPG key to file...${RESET}\n"
@@ -236,6 +254,200 @@ export_gpg_private_key_clipboard() {
     read -n 1 -s -r -p "Press any key to continue..."
 }
 
+# Function to encrypt a file with a password with symmetric encryption
+encrypt_file_password() {
+    printf "${CYAN}Encrypting file with password (symmetric encryption)...${RESET}\n"
+    printf "${YELLOW}Enter the path to the file to encrypt: ${RESET}"
+    read input_file
+    if [ ! -f "$input_file" ]; then
+        printf "${RED}File not found: $input_file${RESET}\n"
+        read -n 1 -s -r -p "Press any key to continue..."
+        return
+    fi
+    printf "${YELLOW}Enter the output file path (default: ${input_file}.gpg): ${RESET}"
+    read output_file
+    if [ -z "$output_file" ]; then
+        output_file="${input_file}.gpg"
+    fi
+    gpg --cipher-algo AES256 --compress-algo 1 --s2k-digest-algo SHA512 --symmetric --output "$output_file" "$input_file"
+    if [ $? -eq 0 ]; then
+        printf "${GREEN}File encrypted successfully to: $output_file${RESET}\n"
+    else
+        printf "${RED}Encryption failed!${RESET}\n"
+    fi
+    read -n 1 -s -r -p "Press any key to continue..."
+}
+
+# Function to decrypt a file with a password with symmetric encryption
+decrypt_file_password() {
+    printf "${CYAN}Decrypting file with password (symmetric decryption)...${RESET}\n"
+    printf "${YELLOW}Enter the path to the encrypted file: ${RESET}"
+    read input_file
+    if [ ! -f "$input_file" ]; then
+        printf "${RED}File not found: $input_file${RESET}\n"
+        read -n 1 -s -r -p "Press any key to continue..."
+        return
+    fi
+    printf "${YELLOW}Enter the output file path (default: ${input_file%.gpg}): ${RESET}"
+    read output_file
+    if [ -z "$output_file" ]; then
+        output_file="${input_file%.gpg}"
+        if [ "$output_file" = "$input_file" ]; then
+            output_file="${input_file}.decrypted"
+        fi
+    fi
+    gpg --decrypt --output "$output_file" "$input_file"
+    if [ $? -eq 0 ]; then
+        printf "${GREEN}File decrypted successfully to: $output_file${RESET}\n"
+    else
+        printf "${RED}Decryption failed!${RESET}\n"
+    fi
+    read -n 1 -s -r -p "Press any key to continue..."
+}
+
+# Function to encrypt a file with a GPG key
+encrypt_file_gpg() {
+    printf "${CYAN}Encrypting file with GPG key...${RESET}\n"
+    printf "${YELLOW}Available public keys:${RESET}\n"
+    gpg --list-keys --keyid-format LONG
+    printf "\n${YELLOW}Enter the recipient's key ID or email: ${RESET}"
+    read recipient
+    printf "${YELLOW}Enter the path to the file to encrypt: ${RESET}"
+    read input_file
+    if [ ! -f "$input_file" ]; then
+        printf "${RED}File not found: $input_file${RESET}\n"
+        read -n 1 -s -r -p "Press any key to continue..."
+        return
+    fi
+    printf "${YELLOW}Enter the output file path (default: ${input_file}.gpg): ${RESET}"
+    read output_file
+    if [ -z "$output_file" ]; then
+        output_file="${input_file}.gpg"
+    fi
+    gpg --trust-model always --armor --encrypt --recipient "$recipient" --output "$output_file" "$input_file"
+    if [ $? -eq 0 ]; then
+        printf "${GREEN}File encrypted successfully to: $output_file${RESET}\n"
+    else
+        printf "${RED}Encryption failed!${RESET}\n"
+    fi
+    read -n 1 -s -r -p "Press any key to continue..."
+}
+
+# Function to decrypt a file with a GPG key
+decrypt_file_gpg() {
+    printf "${CYAN}Decrypting file with GPG key...${RESET}\n"
+    printf "${YELLOW}Enter the path to the encrypted file: ${RESET}"
+    read input_file
+    if [ ! -f "$input_file" ]; then
+        printf "${RED}File not found: $input_file${RESET}\n"
+        read -n 1 -s -r -p "Press any key to continue..."
+        return
+    fi
+    printf "${YELLOW}Enter the output file path (default: ${input_file%.gpg}): ${RESET}"
+    read output_file
+    if [ -z "$output_file" ]; then
+        output_file="${input_file%.gpg}"
+        if [ "$output_file" = "$input_file" ]; then
+            output_file="${input_file}.decrypted"
+        fi
+    fi
+    gpg --decrypt --output "$output_file" "$input_file"
+    if [ $? -eq 0 ]; then
+        printf "${GREEN}File decrypted successfully to: $output_file${RESET}\n"
+    else
+        printf "${RED}Decryption failed!${RESET}\n"
+    fi
+    read -n 1 -s -r -p "Press any key to continue..."
+}
+
+# Function to sign a file with a GPG key
+sign_file_gpg() {
+    printf "${CYAN}Signing file with GPG key...${RESET}\n"
+    printf "${YELLOW}Available private keys:${RESET}\n"
+    gpg --list-secret-keys --keyid-format LONG
+    printf "\n${YELLOW}Enter the key ID to sign with: ${RESET}"
+    read key_id
+    printf "${YELLOW}Enter the path to the file to sign: ${RESET}"
+    read input_file
+    if [ ! -f "$input_file" ]; then
+        printf "${RED}File not found: $input_file${RESET}\n"
+        read -n 1 -s -r -p "Press any key to continue..."
+        return
+    fi
+    printf "${YELLOW}Enter the output signature file path (default: ${input_file}.sig): ${RESET}"
+    read output_file
+    if [ -z "$output_file" ]; then
+        output_file="${input_file}.sig"
+    fi
+    gpg --default-key "$key_id" --armor --detach-sign --output "$output_file" "$input_file"
+    if [ $? -eq 0 ]; then
+        printf "${GREEN}File signed successfully. Signature saved to: $output_file${RESET}\n"
+    else
+        printf "${RED}Signing failed!${RESET}\n"
+    fi
+    read -n 1 -s -r -p "Press any key to continue..."
+}
+
+# Function to verify a signed file with a GPG key
+verify_file_gpg() {
+    printf "${CYAN}Verifying signed file...${RESET}\n"
+    printf "${YELLOW}Enter the path to the original file: ${RESET}"
+    read input_file
+    if [ ! -f "$input_file" ]; then
+        printf "${RED}File not found: $input_file${RESET}\n"
+        read -n 1 -s -r -p "Press any key to continue..."
+        return
+    fi
+    printf "${YELLOW}Enter the path to the signature file (default: ${input_file}.sig): ${RESET}"
+    read signature_file
+    if [ -z "$signature_file" ]; then
+        signature_file="${input_file}.sig"
+    fi
+    if [ ! -f "$signature_file" ]; then
+        printf "${RED}Signature file not found: $signature_file${RESET}\n"
+        read -n 1 -s -r -p "Press any key to continue..."
+        return
+    fi
+    printf "${CYAN}Verifying signature...${RESET}\n"
+    if gpg --verify "$signature_file" "$input_file"; then
+        printf "${GREEN}Signature verification successful!${RESET}\n"
+    else
+        printf "${RED}Signature verification failed!${RESET}\n"
+    fi
+    read -n 1 -s -r -p "Press any key to continue..."
+}
+
+# Function to clearsign a file with a GPG key
+clearsign_file_gpg() {
+    printf "${CYAN}Clearsigning file with GPG key...${RESET}\n"
+    printf "${YELLOW}Available private keys:${RESET}\n"
+    gpg --list-secret-keys --keyid-format LONG
+    printf "\n${YELLOW}Enter the key ID to sign with: ${RESET}"
+    read key_id
+    printf "${YELLOW}Enter the path to the file to clearsign: ${RESET}"
+    read input_file
+    if [ ! -f "$input_file" ]; then
+        printf "${RED}File not found: $input_file${RESET}\n"
+        read -n 1 -s -r -p "Press any key to continue..."
+        return
+    fi
+    printf "${YELLOW}Enter the output file path (default: ${input_file}.asc): ${RESET}"
+    read output_file
+    if [ -z "$output_file" ]; then
+        output_file="${input_file}.asc"
+    fi
+    gpg --default-key "$key_id" --armor --clearsign --output "$output_file" "$input_file"
+    if [ $? -eq 0 ]; then
+        printf "${GREEN}File clearsigned successfully to: $output_file${RESET}\n"
+    else
+        printf "${RED}Clearsigning failed!${RESET}\n"
+    fi
+    read -n 1 -s -r -p "Press any key to continue..."
+}
+
+
+
+
 # Main menu loop
 # Print the options
 
@@ -261,8 +473,17 @@ printf "${CYAN}3. Key List${RESET}\n"
 printf "${GREEN}    31) List GPG keys${RESET}\n"
 printf "${GREEN}    32) List GPG private keys${RESET}\n"
 printf "${GREEN}    33) List GPG identities${RESET}\n"
-printf "${CYAN}4. Exit${RESET}\n"
-printf "${GREEN}    41) Exit${RESET}\n"
+printf "${CYAN}4. Encryption & Decryption${RESET}\n"
+printf "${GREEN}    41) Encrypt file with password (symmetric)${RESET}\n"
+printf "${GREEN}    42) Decrypt file with password (symmetric)${RESET}\n"
+printf "${GREEN}    43) Encrypt file with GPG key${RESET}\n"
+printf "${GREEN}    44) Decrypt file with GPG key${RESET}\n"
+printf "${CYAN}5. Digital Signatures${RESET}\n"
+printf "${GREEN}    51) Sign file with GPG key${RESET}\n"
+printf "${GREEN}    52) Verify signed file${RESET}\n"
+printf "${GREEN}    53) Clearsign file with GPG key${RESET}\n"
+printf "${CYAN}6. Exit${RESET}\n"
+printf "${GREEN}    61) Exit${RESET}\n"
 
 # Get the user's choice
 printf "Enter your choice: "
@@ -287,6 +508,13 @@ case $choice in
     31) list_gpg_keys;;
     32) list_gpg_private_keys;;
     33) list_gpg_identities;;
-    41) exit;;
+    41) encrypt_file_password;;
+    42) decrypt_file_password;;
+    43) encrypt_file_gpg;;
+    44) decrypt_file_gpg;;
+    51) sign_file_gpg;;
+    52) verify_file_gpg;;
+    53) clearsign_file_gpg;;
+    61) exit;;
     *) printf "${RED}Invalid choice. Please try again.${RESET}\n";;
 esac

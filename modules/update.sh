@@ -1,0 +1,24 @@
+#!/bin/bash
+
+# Source the config file
+source ~/.archconfig/config.sh
+
+# Update the ArchConfig repository
+git pull $GIT_PATH
+
+# Update the ArchConfig application
+cp $GIT_PATH/main.sh ~/.archconfig/main.sh
+cp -r $GIT_PATH/modules/ ~/.archconfig/modules/
+
+# Compare the config.sh file
+if [ "$(diff $GIT_PATH/config.sh ~/.archconfig/config.sh)" ]; then
+    printf "${YELLOW}Config file has changed, please review the changes and update the config file...${RESET}\n"
+    diff $GIT_PATH/config.sh ~/.archconfig/config.sh
+    printf "${YELLOW}Do you want to update the config file? ${RED}THIS WILL OVERWRITE THE CURRENT CONFIG FILE${RESET} (y/n)${RESET}\n"
+    read -n 1 -p "Update the config file? " update_config
+    if [ "$update_config" == "y" ]; then
+        cp $GIT_PATH/config.sh ~/.archconfig/config.sh
+    fi
+else
+    printf "${GREEN}Config file is up to date${RESET}\n"
+fi

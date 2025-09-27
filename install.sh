@@ -18,11 +18,12 @@ printf "${YELLOW}Ensuring necessary directories exist...${RESET}\n"
 # Ensure necessary directories exist
 mkdir -p ~/.archconfig
 mkdir -p ~/.archconfig/backups
+mkdir -p ~/.archconfig/user
 mkdir -p ~/.local/bin
 
 # Ensure the necessary requirements are installed
 printf "${YELLOW}Ensuring necessary requirements are installed...${RESET}\n"
-sudo pacman -S rsync git vim --noconfirm
+sudo pacman -S rsync git vim dialog --noconfirm
 
 # Git clone the repository to ~/.archconfig
 printf "${YELLOW}Git cloning the repository to ~/.archconfig/source...${RESET}\n"

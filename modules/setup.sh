@@ -210,15 +210,15 @@ read choice
 # Process the user's choice
 case $choice in
     11) setup_fingerprint;;
-    21) install_yay;;
-    22) install_flatpak;;
-    23) install_docker;;
-    24) install_virtualisation;;
-    25) install_gaming;;
-    26) install_development;;
-    27) install_media;;
-    28) install_productivity;;
-    29) install_other;;
+    31) install_yay;;
+    32) install_flatpak;;
+    33) install_docker;;
+    34) install_virtualisation;;
+    35) install_gaming;;
+    36) install_development;;
+    37) install_media;;
+    38) install_productivity;;
+    39) install_other;;
     310) install_cosmic;;
     91) exit;;
     *) printf "${RED}Invalid choice. Please try again.${RESET}\n";;

@@ -4,6 +4,7 @@
 source ~/.archconfig/config.sh
 
 # Update the ArchConfig repository
+git fetch $GIT_PATH
 git pull $GIT_PATH
 
 # Update the ArchConfig application

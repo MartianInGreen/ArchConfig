@@ -10,7 +10,7 @@ git pull
 
 # Update the ArchConfig application
 cp $GIT_PATH/main.sh $HOME/.archconfig/main.sh
-cp -r $GIT_PATH/modules/ ~/.archconfig/modules/
+cp -r $GIT_PATH/modules/ ~/.archconfig/
 
 # Compare the config.sh file
 if [ "$(diff $GIT_PATH/config.sh $HOME/.archconfig/config.sh)" ]; then

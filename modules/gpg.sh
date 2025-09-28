@@ -484,6 +484,7 @@ printf "${GREEN}    52) Verify signed file${RESET}\n"
 printf "${GREEN}    53) Clearsign file with GPG key${RESET}\n"
 printf "${CYAN}6. Exit${RESET}\n"
 printf "${GREEN}    61) Exit${RESET}\n"
+printf "${GREEN}    62) Return to main menu${RESET}\n"
 
 # Get the user's choice
 printf "Enter your choice: "
@@ -516,5 +517,6 @@ case $choice in
     52) verify_file_gpg;;
     53) clearsign_file_gpg;;
     61) exit;;
+    62) source $HOME/.archconfig/main.sh;;
     *) printf "${RED}Invalid choice. Please try again.${RESET}\n";;
 esac

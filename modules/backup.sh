@@ -245,6 +245,7 @@ printf "${GREEN}    21) Create Backup${RESET}\n"
 printf "${GREEN}    22) Restore Backup${RESET}\n"
 printf "${CYAN}9. Exit${RESET}\n"
 printf "${GREEN}    91) Exit${RESET}\n"
+printf "${GREEN}    92) Return to main menu${RESET}\n"
 
 # Get the user's choice
 printf "Enter your choice: "
@@ -256,5 +257,6 @@ case $choice in
     21) create_backup;;
     22) restore_backup;;
     91) exit;;
+    92) source $HOME/.archconfig/main.sh;;
     *) printf "${RED}Invalid choice. Please try again.${RESET}\n";;
 esac

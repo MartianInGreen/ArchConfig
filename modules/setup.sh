@@ -56,6 +56,8 @@ install_yay() {
     makepkg -si
     printf "${GREEN}yay installed successfully!${RESET}\n"
     read -n 1 -s -r -p "Press any key to continue..."
+    # Source itself to get back to the main menu
+    source $HOME/.archconfig/modules/setup.sh
 }
 
 install_flatpak() {
@@ -63,6 +65,8 @@ install_flatpak() {
     yay -Syu flatpak --noconfirm
     printf "${GREEN}flatpak installed successfully!${RESET}\n"
     read -n 1 -s -r -p "Press any key to continue..."
+    # Source itself to get back to the main menu
+    source $HOME/.archconfig/modules/setup.sh
 }
 
 install_docker() {
@@ -78,6 +82,8 @@ install_docker() {
 
     printf "${GREEN}docker installed successfully!${RESET}\n"
     read -n 1 -s -r -p "Press any key to continue..."
+    # Source itself to get back to the main menu
+    source $HOME/.archconfig/modules/setup.sh
 }
 
 install_virtualisation() {
@@ -85,6 +91,8 @@ install_virtualisation() {
     yay -Syu qemu virt-manager --noconfirm
     printf "${GREEN}virtualisation installed successfully!${RESET}\n"
     read -n 1 -s -r -p "Press any key to continue..."
+    # Source itself to get back to the main menu
+    source $HOME/.archconfig/modules/setup.sh
 }
 
 install_gaming() {
@@ -93,12 +101,13 @@ install_gaming() {
              prismlauncher --noconfirm
     printf "${GREEN}gaming installed successfully!${RESET}\n"
     read -n 1 -s -r -p "Press any key to continue..."
+    # Source itself to get back to the main menu
+    source $HOME/.archconfig/modules/setup.sh
 }
 
 install_development() {
     printf "${CYAN}Installing development...${RESET}\n"
     yay -Syu cursor-bin \
-             ttf-firacode-nerd \
              vim \
              git \
              zsh \
@@ -106,9 +115,14 @@ install_development() {
              fzf \
              eza \
              zoxide \
+             linutil-bin \
+             arch-os-manager \
+             btop-gpu-git \
              code --noconfirm
     printf "${GREEN}development installed successfully!${RESET}\n"
     read -n 1 -s -r -p "Press any key to continue..."
+    # Source itself to get back to the main menu
+    source $HOME/.archconfig/modules/setup.sh
 }
 
 install_media() {
@@ -117,6 +131,8 @@ install_media() {
              spotify --noconfirm
     printf "${GREEN}media installed successfully!${RESET}\n"
     read -n 1 -s -r -p "Press any key to continue..."
+    # Source itself to get back to the main menu
+    source $HOME/.archconfig/modules/setup.sh
 }
 
 install_productivity() {
@@ -125,6 +141,8 @@ install_productivity() {
              zen-browser-bin --noconfirm
     printf "${GREEN}productivity installed successfully!${RESET}\n"
     read -n 1 -s -r -p "Press any key to continue..."
+    # Source itself to get back to the main menu
+    source $HOME/.archconfig/modules/setup.sh
 }
 
 install_other() {
@@ -133,12 +151,13 @@ install_other() {
              --noconfirm
     printf "${GREEN}other installed successfully!${RESET}\n"
     read -n 1 -s -r -p "Press any key to continue..."
+    # Source itself to get back to the main menu
+    source $HOME/.archconfig/modules/setup.sh
 }
 
 install_cosmic() {
     printf "${CYAN}Installing COSMIC...${RESET}\n"
-    yay -Syu cosmic \ 
-             cosmic-app-library \
+    yay -Syu cosmic cosmic-app-library \
              cosmic-applets \
              cosmic-bg \
              cosmic-comp \
@@ -166,8 +185,7 @@ install_cosmic() {
              gvfs-dnssd \
              gvfs-smb \
              gvfs-nfs \
-             satty \ 
-             wl-clipboard \
+             satty wl-clipboard \
              xdg-desktop-portal-cosmic --noconfirm
 
     # Replace Default greeter with cosmic greeter
@@ -179,6 +197,35 @@ install_cosmic() {
 
     printf "${GREEN}Cosmic installed successfully!${RESET}\n"
     read -n 1 -s -r -p "Press any key to continue..."
+    # Source itself to get back to the main menu
+    source $HOME/.archconfig/modules/setup.sh
+}
+
+install_fonts() {
+    printf "${CYAN}Installing fonts...${RESET}\n"
+    yay -Syu ttf-firacode-nerd \
+             ttf-firacode \
+             ttf-carlito \
+             ttf-dejavu tf-dejavu-nerd \
+             ttf-fira-sans \
+             ttf-fira-mono \
+             texlive-fontsextra noto-fonts \
+             noto-fonts-cjk \
+             noto-fonts-emoji \
+             noto-fonts-extra \
+             otf-font-awesome \
+             ttf-jetbrains-mono \
+             ttf-jetbrains-mono-nerd \
+             ttf-roboto \
+             ttf-roboto-mono \
+             ttf-roboto-mono-nerd \
+             ttf-ubuntu-nerd \
+             ttf-ubuntu-mono-nerd \
+             ttf-jetbrains-mono --noconfirm
+    printf "${GREEN}fonts installed successfully!${RESET}\n"
+    read -n 1 -s -r -p "Press any key to continue..."
+    # Source itself to get back to the main menu
+    source $HOME/.archconfig/modules/setup.sh
 }
 
 # Main menu loop
@@ -200,8 +247,11 @@ printf "${GREEN}    37) Install & Setup Media${RESET}\n"
 printf "${GREEN}    38) Install & Setup Productivity${RESET}\n"
 printf "${GREEN}    39) Install & Setup Other${RESET}\n"
 printf "${GREEN}    310) Install & Setup Cosmic${RESET}\n"
+printf "${GREEN}    311) Install Fonts${RESET}\n"
 printf "${CYAN}9. Exit${RESET}\n"
 printf "${GREEN}    91) Exit${RESET}\n"
+printf "${GREEN}    92) Return to main menu${RESET}\n"
+
 
 # Get the user's choice
 printf "Enter your choice: "
@@ -220,6 +270,8 @@ case $choice in
     38) install_productivity;;
     39) install_other;;
     310) install_cosmic;;
+    311) install_fonts;;
     91) exit;;
+    92) source $HOME/.archconfig/main.sh;;
     *) printf "${RED}Invalid choice. Please try again.${RESET}\n";;
 esac

@@ -111,6 +111,7 @@ printf "${CYAN}2. Local Git Config${RESET}\n"
 printf "${GREEN}    21) Set up local git config${RESET}\n"
 printf "${CYAN}9. Exit${RESET}\n"
 printf "${GREEN}    91) Exit${RESET}\n"
+printf "${GREEN}    92) Return to main menu${RESET}\n"
 
 # Get the user's choice
 printf "Enter your choice: "
@@ -121,5 +122,6 @@ case $choice in
     11) set_up_git;;
     21) set_local_git_config;;
     91) exit;;
+    92) source $HOME/.archconfig/main.sh;;
     *) printf "${RED}Invalid choice. Please try again.${RESET}\n";;
 esac

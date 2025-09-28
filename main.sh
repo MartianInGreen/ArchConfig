@@ -14,6 +14,7 @@ if [ "$1" == "-h" ] || [ "$1" == "--help" ]; then
     echo "  gpg        Launch the GPG management module"
     echo "  backup     Launch the backup management module"
     echo "  git        Launch the git management module"
+    echo "  setup      Launch the setup management module"
     echo "  help       Show this help message"
     exit 0
 fi
@@ -42,6 +43,12 @@ if [ "$1" == "git" ]; then
     exit 0
 fi
 
+# Launch the setup module
+if [ "$1" == "setup" ]; then
+    source ~/.archconfig/modules/setup.sh
+    exit 0
+fi
+
 # -----------------------------------------------------------------
 
 # Main menu
@@ -54,6 +61,7 @@ printf "${GREEN}    12) Backup${RESET}\n"
 printf "${CYAN}2. Tools${RESET}\n"
 printf "${GREEN}    21) GPG Management${RESET}\n"
 printf "${GREEN}    22) Git Management${RESET}\n"
+printf "${GREEN}    23) Setup Management${RESET}\n"
 printf "${CYAN}3. Exit${RESET}\n"
 printf "${GREEN}    9) Exit${RESET}\n"
 
@@ -67,6 +75,7 @@ case $choice in
     12) source ~/.archconfig/modules/backup.sh;;
     21) source ~/.archconfig/modules/gpg.sh;;
     22) source ~/.archconfig/modules/git.sh;;
+    23) source ~/.archconfig/modules/setup.sh;;
     9) exit;;
     *) printf "${RED}Invalid choice. Please try again.${RESET}\n";;
 esac

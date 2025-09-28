@@ -45,6 +45,7 @@ create_backup() {
     mkdir -p "$BACKUPS_PATH/$(date +%Y-%m-%d)/DIRS"
     mkdir -p "$BACKUPS_PATH/$(date +%Y-%m-%d)/FILES/ENCRYPTED"
     mkdir -p "$BACKUPS_PATH/$(date +%Y-%m-%d)/DIRS/ENCRYPTED"
+    mkdir -p "$BACKUPS_PATH/$(date +%Y-%m-%d)/PACKAGES"
     
     # Backup individual files (preserving directory structure)
     for file in "${BACKUP_FILES[@]}"; do
@@ -189,6 +190,12 @@ create_backup() {
     else
         echo "No encrypted content to process" >> "$BACKUPS_PATH/$backup_date/LOG.txt"
     fi
+
+    # Backup packages
+    printf "${YELLOW}Backing up packages...${RESET}\n"
+    pacman -Qq > "$BACKUPS_PATH/$backup_date/PACKAGES/PACKAGES_PACMAN.txt"
+    flatpak list --user > "$BACKUPS_PATH/$backup_date/PACKAGES/PACKAGES_FLATPAK.txt"
+    echo "Backed up packages to $BACKUPS_PATH/$backup_date/PACKAGES/PACKAGES.txt" >> "$BACKUPS_PATH/$backup_date/LOG.txt"
 
     # Git add, commit and push the backup
     printf "${YELLOW}Git adding, committing and pushing the backup...${RESET}\n"

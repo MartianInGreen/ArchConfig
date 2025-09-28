@@ -24,6 +24,9 @@ backup_setup() {
     fi
     
     printf "${GREEN}Backup setup complete!${RESET}\n"
+    read -n 1 -s -r -p "Press any key to continue..."
+    # Source itself to get back to the main menu
+    source $HOME/.archconfig/modules/backup.sh
 }
 
 # Create backup
@@ -221,6 +224,8 @@ create_backup() {
 
     printf "${GREEN}Backup created successfully!${RESET}\n"
     read -n 1 -s -r -p "Press any key to continue..."
+    # Source itself to get back to the main menu
+    source $HOME/.archconfig/modules/backup.sh
 }
 
 # Restore backup

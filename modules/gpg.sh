@@ -9,6 +9,8 @@ create_gpg_key() {
     gpg --full-generate-key
     printf "${GREEN}GPG key created successfully!${RESET}\n"
     read -n 1 -s -r -p "Press any key to continue..."
+    # Source itself to get back to the main menu
+    source $HOME/.archconfig/modules/gpg.sh
 }
 
 # Function to create a new GPG subkey
@@ -21,6 +23,8 @@ create_gpg_subkey() {
     gpg --edit-key "$key_id" addkey save
     printf "${GREEN}GPG subkey created successfully!${RESET}\n"
     read -n 1 -s -r -p "Press any key to continue..."
+    # Source itself to get back to the main menu
+    source $HOME/.archconfig/modules/gpg.sh
 }
 
 # Function to create a new GPG identity (UID)
@@ -33,6 +37,8 @@ create_gpg_identity() {
     gpg --edit-key "$key_id" adduid save
     printf "${GREEN}GPG identity created successfully!${RESET}\n"
     read -n 1 -s -r -p "Press any key to continue..."
+    # Source itself to get back to the main menu
+    source $HOME/.archconfig/modules/gpg.sh
 }
 
 # Function to import GPG key from file
@@ -47,6 +53,8 @@ import_gpg_key_file() {
         printf "${RED}File not found: $file_path${RESET}\n"
     fi
     read -n 1 -s -r -p "Press any key to continue..."
+    # Source itself to get back to the main menu
+    source $HOME/.archconfig/modules/gpg.sh
 }
 
 # Function to import GPG key from clipboard
@@ -62,6 +70,8 @@ import_gpg_key_clipboard() {
         printf "${RED}No clipboard utility found (xclip or wl-paste required)${RESET}\n"
     fi
     read -n 1 -s -r -p "Press any key to continue..."
+    # Source itself to get back to the main menu
+    source $HOME/.archconfig/modules/gpg.sh
 }
 
 # Function to delete a GPG key
@@ -81,6 +91,8 @@ delete_gpg_key() {
         printf "${YELLOW}Operation cancelled.${RESET}\n"
     fi
     read -n 1 -s -r -p "Press any key to continue..."
+    # Source itself to get back to the main menu
+    source $HOME/.archconfig/modules/gpg.sh
 }
 
 # Function to delete a GPG subkey
@@ -93,6 +105,8 @@ delete_gpg_subkey() {
     gpg --edit-key "$key_id" key 1 delkey save
     printf "${GREEN}GPG subkey deleted successfully!${RESET}\n"
     read -n 1 -s -r -p "Press any key to continue..."
+    # Source itself to get back to the main menu
+    source $HOME/.archconfig/modules/gpg.sh
 }
 
 # Function to delete a GPG identity
@@ -105,6 +119,8 @@ delete_gpg_identity() {
     gpg --edit-key "$key_id" uid 1 deluid save
     printf "${GREEN}GPG identity deleted successfully!${RESET}\n"
     read -n 1 -s -r -p "Press any key to continue..."
+    # Source itself to get back to the main menu
+    source $HOME/.archconfig/modules/gpg.sh
 }
 
 # Function to list GPG keys
@@ -112,6 +128,8 @@ list_gpg_keys() {
     printf "${CYAN}Listing GPG keys...${RESET}\n"
     gpg --list-keys --keyid-format LONG
     read -n 1 -s -r -p "Press any key to continue..."
+    # Source itself to get back to the main menu
+    source $HOME/.archconfig/modules/gpg.sh
 }
 
 # Function to list GPG private keys
@@ -119,6 +137,8 @@ list_gpg_private_keys() {
     printf "${CYAN}Listing GPG private keys...${RESET}\n"
     gpg --list-secret-keys --keyid-format LONG
     read -n 1 -s -r -p "Press any key to continue..."
+    # Source itself to get back to the main menu
+    source $HOME/.archconfig/modules/gpg.sh
 }
 
 # Function to list GPG identities
@@ -137,6 +157,8 @@ list_gpg_identities() {
     }'
     printf "\n"
     read -n 1 -s -r -p "Press any key to continue..."
+    # Source itself to get back to the main menu
+    source $HOME/.archconfig/modules/gpg.sh
 }
 
 # Function to export GPG key to file
@@ -151,6 +173,8 @@ export_gpg_key_file() {
     gpg --export "$key_id" > "$output_file"
     printf "${GREEN}GPG key exported to $output_file successfully!${RESET}\n"
     read -n 1 -s -r -p "Press any key to continue..."
+    # Source itself to get back to the main menu
+    source $HOME/.archconfig/modules/gpg.sh
 }
 
 # Function to export GPG key to clipboard
@@ -170,6 +194,8 @@ export_gpg_key_clipboard() {
         printf "${RED}No clipboard utility found (xclip or wl-copy required)${RESET}\n"
     fi
     read -n 1 -s -r -p "Press any key to continue..."
+    # Source itself to get back to the main menu
+    source $HOME/.archconfig/modules/gpg.sh
 }
 
 # Function to export GPG public key to file
@@ -184,6 +210,8 @@ export_gpg_public_key_file() {
     gpg --armor --export "$key_id" > "$output_file"
     printf "${GREEN}GPG public key exported to $output_file successfully!${RESET}\n"
     read -n 1 -s -r -p "Press any key to continue..."
+    # Source itself to get back to the main menu
+    source $HOME/.archconfig/modules/gpg.sh
 }
 
 # Function to export GPG public key to clipboard
@@ -203,6 +231,8 @@ export_gpg_public_key_clipboard() {
         printf "${RED}No clipboard utility found (xclip or wl-copy required)${RESET}\n"
     fi
     read -n 1 -s -r -p "Press any key to continue..."
+    # Source itself to get back to the main menu
+    source $HOME/.archconfig/modules/gpg.sh
 }
 
 # Function to export GPG private key to file
@@ -225,6 +255,8 @@ export_gpg_private_key_file() {
         printf "${YELLOW}Operation cancelled.${RESET}\n"
     fi
     read -n 1 -s -r -p "Press any key to continue..."
+    # Source itself to get back to the main menu
+    source $HOME/.archconfig/modules/gpg.sh
 }
 
 # Function to export GPG private key to clipboard
@@ -252,6 +284,8 @@ export_gpg_private_key_clipboard() {
         printf "${YELLOW}Operation cancelled.${RESET}\n"
     fi
     read -n 1 -s -r -p "Press any key to continue..."
+    # Source itself to get back to the main menu
+    source $HOME/.archconfig/modules/gpg.sh
 }
 
 # Function to encrypt a file with a password with symmetric encryption
@@ -276,6 +310,8 @@ encrypt_file_password() {
         printf "${RED}Encryption failed!${RESET}\n"
     fi
     read -n 1 -s -r -p "Press any key to continue..."
+    # Source itself to get back to the main menu
+    source $HOME/.archconfig/modules/gpg.sh
 }
 
 # Function to decrypt a file with a password with symmetric encryption
@@ -303,6 +339,8 @@ decrypt_file_password() {
         printf "${RED}Decryption failed!${RESET}\n"
     fi
     read -n 1 -s -r -p "Press any key to continue..."
+    # Source itself to get back to the main menu
+    source $HOME/.archconfig/modules/gpg.sh
 }
 
 # Function to encrypt a file with a GPG key
@@ -331,6 +369,8 @@ encrypt_file_gpg() {
         printf "${RED}Encryption failed!${RESET}\n"
     fi
     read -n 1 -s -r -p "Press any key to continue..."
+    # Source itself to get back to the main menu
+    source $HOME/.archconfig/modules/gpg.sh
 }
 
 # Function to decrypt a file with a GPG key
@@ -358,6 +398,8 @@ decrypt_file_gpg() {
         printf "${RED}Decryption failed!${RESET}\n"
     fi
     read -n 1 -s -r -p "Press any key to continue..."
+    # Source itself to get back to the main menu
+    source $HOME/.archconfig/modules/gpg.sh
 }
 
 # Function to sign a file with a GPG key
@@ -386,6 +428,8 @@ sign_file_gpg() {
         printf "${RED}Signing failed!${RESET}\n"
     fi
     read -n 1 -s -r -p "Press any key to continue..."
+    # Source itself to get back to the main menu
+    source $HOME/.archconfig/modules/gpg.sh
 }
 
 # Function to verify a signed file with a GPG key
@@ -415,6 +459,8 @@ verify_file_gpg() {
         printf "${RED}Signature verification failed!${RESET}\n"
     fi
     read -n 1 -s -r -p "Press any key to continue..."
+    # Source itself to get back to the main menu
+    source $HOME/.archconfig/modules/gpg.sh
 }
 
 # Function to clearsign a file with a GPG key
@@ -443,6 +489,8 @@ clearsign_file_gpg() {
         printf "${RED}Clearsigning failed!${RESET}\n"
     fi
     read -n 1 -s -r -p "Press any key to continue..."
+    # Source itself to get back to the main menu
+    source $HOME/.archconfig/modules/gpg.sh
 }
 
 

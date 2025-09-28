@@ -16,6 +16,8 @@ alacritty_input_fixes() {
     cd $current_dir
     printf "${GREEN}Alacritty input fixed successfully!${RESET}\n"
     read -n 1 -s -r -p "Press any key to continue..."
+    # Source itself to get back to the main menu
+    source $HOME/.archconfig/modules/fixes.sh
 }
 
 # Main menu loop

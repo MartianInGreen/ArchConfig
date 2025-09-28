@@ -68,6 +68,9 @@ set_up_git() {
     fi
 
     printf "${GREEN}Git setup complete!${RESET}\n"
+    read -n 1 -s -r -p "Press any key to continue..."
+    # Source itself to get back to the main menu
+    source $HOME/.archconfig/modules/git.sh
 }
 
 set_local_git_config() {
@@ -98,6 +101,9 @@ set_local_git_config() {
     fi
 
     printf "${GREEN}Local git config setup complete!${RESET}\n"
+    read -n 1 -s -r -p "Press any key to continue..."
+    # Source itself to get back to the main menu
+    source $HOME/.archconfig/modules/git.sh
 }
 
 # Main menu loop

@@ -2,6 +2,8 @@
 
 A comprehensive Arch Linux configuration management tool that helps you manage system configurations, backups, GPG keys, Git setup, and common fixes.
 
+You can also view my dotfiles [here](https://github.com/MartianInGreen/ArchDotfiles).
+
 ## Overview
 
 ArchConfig is a modular bash-based tool designed to streamline the management of your Arch Linux system. It provides an interactive menu-driven interface for various system administration tasks including:

@@ -49,6 +49,12 @@ if [ "$1" == "setup" ]; then
     exit 0
 fi
 
+# Launch the system update module
+if [ "$1" == "system-update" ]; then
+    source ~/.archconfig/modules/system-update.sh
+    exit 0
+fi
+
 # -----------------------------------------------------------------
 
 # Main menu
@@ -62,6 +68,7 @@ printf "${CYAN}2. Tools${RESET}\n"
 printf "${GREEN}    21) GPG Management${RESET}\n"
 printf "${GREEN}    22) Git Management${RESET}\n"
 printf "${GREEN}    23) Setup Management${RESET}\n"
+printf "${GREEN}    24) System Update${RESET}\n"
 printf "${CYAN}3. Exit${RESET}\n"
 printf "${GREEN}    9) Exit${RESET}\n"
 
@@ -76,6 +83,7 @@ case $choice in
     21) source ~/.archconfig/modules/gpg.sh;;
     22) source ~/.archconfig/modules/git.sh;;
     23) source ~/.archconfig/modules/setup.sh;;
+    24) source ~/.archconfig/modules/system-update.sh;;
     9) exit;;
     *) printf "${RED}Invalid choice. Please try again.${RESET}\n";;
 esac

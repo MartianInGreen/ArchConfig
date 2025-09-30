@@ -138,6 +138,8 @@ install_media() {
 install_productivity() {
     printf "${CYAN}Installing productivity...${RESET}\n"
     yay -Syu libreoffice \
+             gThumb \
+             pinta \
              zen-browser-bin --noconfirm
     printf "${GREEN}productivity installed successfully!${RESET}\n"
     read -n 1 -s -r -p "Press any key to continue..."
@@ -148,6 +150,8 @@ install_productivity() {
 install_other() {
     printf "${CYAN}Installing other...${RESET}\n"
     yay -Syu fastfetch \
+             kdeconnect \
+             localsend-bin \
              --noconfirm
     printf "${GREEN}other installed successfully!${RESET}\n"
     read -n 1 -s -r -p "Press any key to continue..."
@@ -188,12 +192,26 @@ install_cosmic() {
              satty wl-clipboard \
              xdg-desktop-portal-cosmic --noconfirm
 
+    # Ask user before installing git packages due to longer compile times
+    printf "${YELLOW}Do you want to install some extra packages? \nThey will need to be compiled and will take a while? (y/n): ${RESET}"
+    read install_git_packages
+    if [ "$install_git_packages" == "y" ]; then
+        yay -Syu clipboard-manager-git --noconfirm
+    fi
+
     # Replace Default greeter with cosmic greeter
     sudo systemctl disable lightdm.service
     sudo systemctl disable gdm.service
     sudo systemctl disable sddm.service
     sudo systemctl disable lxdm.service
     sudo systemctl enable cosmic-greeter.service
+
+    # Enable data control to enable clipboard managers after asking the user
+    printf "${YELLOW}Do you want to enable data control to enable clipboard managers?\nThis might be insecure as it allows all privileged apps to access the clipboard without user confirmation. (y/n): ${RESET}"
+    read enable_data_control
+    if [ "$enable_data_control" == "y" ]; then
+        echo 'export COSMIC_DATA_CONTROL_ENABLED=1' | sudo tee /etc/profile.d/data_control_cosmic.sh > /dev/null
+    fi
 
     printf "${GREEN}Cosmic installed successfully!${RESET}\n"
     read -n 1 -s -r -p "Press any key to continue..."
